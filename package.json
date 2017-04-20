@@ -1,0 +1,25 @@
+{
+  "name": "noe-cl-manager",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mJehanno",
+  "license": "MIT",
+  "dependencies": {
+    "argon2": "^0.15.0",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1",
+    "sequelize": "^3.30.4"
+  },
+  "devDependencies": {
+    "graphql": "^0.9.3",
+    "express-graphql": "^0.6.4",
+    "passport-discord": "^0.1.2",
+    "express-session": "^1.15.2"
+  }
+}
