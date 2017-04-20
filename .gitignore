@@ -39,6 +39,7 @@ jspm_packages
 # Created by https://www.gitignore.io/api/visualstudiocode
 
 ### VisualStudioCode ###
+.vscode/
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
