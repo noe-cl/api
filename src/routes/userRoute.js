@@ -6,7 +6,15 @@ const UserDao = require("../models/DAO/UserDAO");
 const Role = require("../models/DTO/Role");
 
 router.get("/", (req, res) => {
-    res.send("users");
+    UserDao.getAll().then((users) => {
+        res.send(users);
+    });
+});
+
+router.get("/:id", (req, res) => {
+    UserDao.getById(req.params.id).then((user) => {
+        res.send(user);
+    });
 });
 
 router.post("/", (req, res) => {
