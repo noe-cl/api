@@ -10,8 +10,8 @@ class UserDAO {
                     reject(error);
                 } else {
                     let insertedUser = new User();
-                    insertedUser.setLogin(user.login);
-                    insertedUser.setLodestoneId(user.lodestoneId);
+                    insertedUser.login = user.getLogin();
+                    insertedUser.lodestoneId = user.getLodestoneId();
                     insertedUser.role = user.getRole();
                     resolve(insertedUser);
                 }
@@ -20,7 +20,9 @@ class UserDAO {
     }
 
     getById(lodestoneId) {
-        connection.query();
+        return new Promise((resolve, reject) => {
+            connection.query("SELECT lodestoneId, login, role FROM ")
+        });
     }
 }
 
