@@ -19,8 +19,6 @@ app.use("/api/progression", progressRoute);
 
 app.get("/login", (req, res) => {
 
-
-
 });
 
 
