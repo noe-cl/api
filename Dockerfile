@@ -1,10 +1,10 @@
 FROM node:6.10
 
-RUN npm install -g nodemon
-
 ADD package.json package.json
 RUN npm install
 ADD . .
+
+VOLUME /src/config
 
 EXPOSE 3000
 
