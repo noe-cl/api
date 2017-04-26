@@ -11,17 +11,12 @@ before_install:
 script:
 - echo "no tests at the moment"
 after_success:
-- if [ $TRAVIS_PULL_REQUEST == "false" ]; then
-  docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS;
-  export REPO=noefc/api;
-  export TAG=`if [ "$TRAVIS_BRANCH" == "master"]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`;
-  docker build -f Dockerfile -t $REPO:$COMMIT .;
-  docker tag $REPO:$COMMIT $REPO:$TAG;
-  docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER;
-  docker push $REPO;
-  export SSHPASS=$DEPLOY_PASS;
-  sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST $DEPLOY_PATH/deploy.sh;
-  fi
+- if [ $TRAVIS_PULL_REQUEST == "false" ]; then docker login -e $DOCKER_EMAIL -u $DOCKER_USER
+  -p $DOCKER_PASS; export REPO=noefc/api; export TAG=`if [ "$TRAVIS_BRANCH" == "master"];
+  then echo "latest"; else echo $TRAVIS_BRANCH ; fi`; docker build -f Dockerfile -t
+  $REPO:$COMMIT .; docker tag $REPO:$COMMIT $REPO:$TAG; docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER;
+  docker push $REPO; export SSHPASS=$DEPLOY_PASS; sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST
+  $DEPLOY_PATH/deploy.sh; fi
 env:
   global:
   - COMMIT=${TRAVIS_COMMIT::8}
@@ -31,3 +26,4 @@ env:
   - secure: AaW0lxQaNFK2DMGfxKf9wQfmbkDQLTITQrPLe1fmSkqObwuIgd8Jhuly7oMz/SLjGai0NCyGAG+W9/lk+/Jr0TeSs3XtLBG6aYz1ySz0Ky3JGqf8sb4DXRCmnrN/9x8ywgLjVSY/ThnlXD4LQGFL5+xsnT/ywGNATHIwVe7Kc3k4SXNnmJ1EvYPpS0iBqUU/PCtA3x2KhdNzMrvI30bM0iJyrmgmVFKBDx3prEFSXlZN2+39t5wc83qMdu9wzXQLeKduNkbuLMJz5ko1mV/svJ0sXs5yq6lmzag/Je18wVluqDNYmRKgN+RzWdiBnOoix9Lt5XL6q4XGDB6XwFcXslvYF9tcOAX7SYWrnpyMcCk08YmR7jXOLa0sygRt/wwZOrJJVcGEqhjf0myKyGlXsXLID+yvHFyDv0LgOCTO3q6EuIft2uWdZR4pyqgwpuWY3TkUFKFpce5KiUl8B8kCAeX58/dJ/plnRyqVzaL/MtzFkZPQbNsM9IitLz0+kWVFvJ4T3FbN9b6ylRAeY0Nfy6x23vpu2uj58JlojmgTCnZWe+tLNgRoNFf/YEoHFHuHUIBNEaYv9B+StoUoh4v7vbfuaMFj+tbg8k4uK5/PrGhPzNAjjaXgyyYpjyEodRYYT1Fxq6GSgwrzL6Z5CX7BCKvoy1r9tbe8y5JNerYaRzk=
   - secure: rx6ic85FrQALow3/Kw/jqmy8D6hOOllXbE+VWUfQFiSs3m194odINlNGy3LgqXscJIpDLliksUetpnW7EhzU1aMxLm2BcuDaysCsDP/wqFSyWGJ51nT6uNU27BfE4aC+JgQ/H104fOZeRoSdPtCVRKvpWHn4nzXEUiBa3ri/SQqm32QHFW6jTp2vod2lgP+bOAMxk7vhIQThXvA04xcjPJiWtna8yyEHIHOXXIHU/YTaDW33qAUhUYA3WCyKecy6e86qwSfY78rUs6132VAdXu6UysrTcVDZTh0cTenUvA3aE6NtpvwAU1xdX9E1lKG50GObsQ+f6+Q7iBvsAq1dFLs0c5iNvsfws99y1eLjzQt1UIa02HEWo0X1XP4MMLhepp9xJeKJQ88nGh7FH8n6m45QWtbiRe61/ygPt8YuSbJUwDKQ4WszqjCwDhhua2gZbLNDIdtkfrw42Sj80xUQQhywD3C/wHR15rXxUal4NWPtSDbYdxjZ+GpPHdpim5FkaN7s1VKV0cu+xP23cfoAaV0NCFqigS9sLVZ1cksk4JtZdpHsSrhEAHEuW9t0s6/UFYyayDMR4f5U1Mf1hg/7xiEShcVo8qTgydvIkmIIUCqsQ50YwVX+RnFldODPJMoAkXXMQKuq3sUdUfa+l1r8f1Tkp3CEXdFNki6DjfwAiCk=
   - secure: 6xxlLdr1BsDAN4GrinBu20qIsWR54wqFrZGgi7OfbzEriZm7X7Ufcd8WEFhwM2BiW1nXZs9w23/uc+VjYWg2oHp6dXq6Ya0N1PNn0khrmlpkyXi476JW/ZVls7a+qD7fS0wHIBR5aHut00K/0tLk5EJTDlK7q8QjMDtyzrCbSiBE8EcEvsSX3Y5vccNnBsBn2B4Flqp/V07mk4WEDrw32+Fn2z5E9hwxJyT4F9OaMKq0EOGJkoGFDa1OeEFh8gn48kom2ebItc+9NbW2EEILS86RCbNbSAxkz6TCsyIB1mn/Rkh2KbLXAVPw2LyA/axRYPPA0smbQ6ulKmx5FxDLCsscqCAkcycyo0dVmVcRr6Hlsno0XaQ9rP8mUDpm6nfrSKrLvhIv76CNucaBhNZI2K92baddxqVP/3AN6sjQp997UlbwA9wgea24hpNTwxBN6GK39pNRUlwy+u2Docfhj1RhtCRyB/FycQ8BGPDiXpsz9R7hBVhYhFpasEzF7IzUKqlRk3otgp54R//b2wK9+IgJThxgODZhdMeCVFs13YBfysQMqXMjXsCzoieT0S788IdPwhdp4J0hLsDBDTAd1zEvIlitd1ajnqhP+2SiSYjLu4hLw2Uh9CtezIK4yEoTI/T6Ax7P6oWs0l9tFrDaEwmzC8lKk7g6m8/JaUlhztA=
+  - secure: 7s1k7RqNLR1MYSmzLhfa12HyyhytL0cMk1GN+nQb5+QusjL2bUB0ivF9WXSX2NfUOhlvPFApkD7YKp1Ex6cTuvsj49nYlZrzUgcvKOVA79br5XwikWfSqjGCj6NGljspG1wDVRYN/zwcRkkcoDUz+MbNmrVtJ6KW4UdS3r6TXF+fbdIr0OQjLxPsk5+KhIaLv2NTUBfjmoN/apxD4VrV4Bene4x+aIa0OGPNLF2Pr0tA83W62mT8IfJ4u/mH3vBXc4i/YIge2nfNBBQ7tYjdBSt7IIC+BrYkrKCRDgywNejeecD24iLCryKaPIwT6tPp20OvglYep1AbfIXzMhKft32kRKzCmpynbWI+8sR7vFSGne4QuH+uUIevm+RpTZK38mtwxeoRfg+EpvxL38hoLDzK3CYg4GCxic6OE6KDak/z03uCaxdHJq/VjqxgFQzNbJBJJrDFzV4Q/uEa0JACcHdGO5QCSbd+Ktv4ie8pO2OFp6OteDeRsvODcNL++LLNmbUxyVeDnnyTyWgq7uzHkfeBJl1XZB8yRmVxZFJ51rJ7g+mgr5uLLOMKRQlbDIRIqJ677gUu3URaotiiE0vk7/Z5cH4NhbgwKlgM3tOvvuT4rbI0Oqf7hQiXxKOaZric159c6bEmvI33A6LbGIvEPab6lH9fiYvvtmsVguanaGQ=
