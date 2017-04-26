@@ -12,16 +12,16 @@ script:
 - echo "no tests at the moment"
 after_success:
 - if [ $TRAVIS_PULL_REQUEST == "false" ]; then
-docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS;
-export REPO=noefc/api;
-export TAG=`if [ "$TRAVIS_BRANCH" == "master"]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`;
-docker build -f Dockerfile -t $REPO:$COMMIT .;
-docker tag $REPO:$COMMIT $REPO:$TAG;
-docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER;
-docker push $REPO;
-export SSHPASS=$DEPLOY_PASS;
-sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST $DEPLOY_PATH/deploy.sh;
-fi
+  docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS;
+  export REPO=noefc/api;
+  export TAG=`if [ "$TRAVIS_BRANCH" == "master"]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`;
+  docker build -f Dockerfile -t $REPO:$COMMIT .;
+  docker tag $REPO:$COMMIT $REPO:$TAG;
+  docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER;
+  docker push $REPO;
+  export SSHPASS=$DEPLOY_PASS;
+  sshpass -e ssh $DEPLOY_USER@$DEPLOY_HOST $DEPLOY_PATH/deploy.sh;
+  fi
 env:
   global:
   - COMMIT=${TRAVIS_COMMIT::8}
