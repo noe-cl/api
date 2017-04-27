@@ -27,8 +27,6 @@ app.use("/api/links", linkRoute);
 
 app.get("/login", (req, res) => {
 
-
-
 });
 
 
