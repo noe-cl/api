@@ -9,7 +9,7 @@ before_install:
 - sudo apt-get update
 - sudo apt-get install -y sshpass
 script:
-- echo "no tests at the moment"
+- npm test
 after_success:
 - if [ $TRAVIS_PULL_REQUEST == "false" ]; then
   docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS;

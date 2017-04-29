@@ -1,0 +1,2 @@
+--watch-extensions js
+test/**/*.spec.js
