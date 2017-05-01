@@ -5,7 +5,7 @@ import {APIRouter} from "./core/api-router";
 
 
 // All of the endpoints have to be added to this array in order to get them loaded into the API.
-const endpoints: (new() => any)[] = [
+const endpoints: (new(...args: any[]) => any)[] = [
     ExampleEndpoint
 ];
 

@@ -4,6 +4,6 @@ import {EndpointOptions} from "../endpoint-options";
  */
 export function Endpoint(options: EndpointOptions) {
     return (target) => {
-        Reflect.defineProperty(target, 'endpoint', {value: options});
+        Reflect.defineMetadata('endpoint', options, target);
     };
 }

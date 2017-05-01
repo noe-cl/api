@@ -4,6 +4,7 @@ import {Post} from "../../core/decorator/post";
 import {Put} from "../../core/decorator/put";
 import {Delete} from "../../core/decorator/delete";
 import {GetAll} from "../../core/decorator/get-all";
+import {ExampleService} from "../../service/example-service";
 /**
  * Created by Miu on 29/04/2017.
  *
@@ -14,9 +15,12 @@ import {GetAll} from "../../core/decorator/get-all";
 })
 export class ExampleEndpoint {
 
+    constructor(private a: ExampleService) {
+    }
+
     @GetOne
     public getOne(id: number): any {
-        return {id: id};
+        return {result: this.a.test()};
     }
 
     @Post

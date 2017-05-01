@@ -1,11 +1,9 @@
 /**
  * Created by Miu on 29/04/2017.
  */
-import * as mocha from 'mocha';
-import * as chai from 'chai';
+import * as chai from "chai";
+import app from "../../index";
 import chaiHttp = require('chai-http');
-
-import app from '../../index';
 
 /**
  * Basic tests for the eexample endpoint, to explain how to test endpoints.
@@ -26,7 +24,7 @@ describe('baseRoute', () => {
     it('should have a message prop', () => {
         return chai.request(app).get('/test/1')
             .then(res => {
-                expect(parseInt(res.body.id)).to.eql(1);
+                expect(res.body.result).to.eql("foo");
             });
     });
 
