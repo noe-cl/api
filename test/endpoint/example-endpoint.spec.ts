@@ -2,7 +2,7 @@
  * Created by Miu on 29/04/2017.
  */
 import * as chai from "chai";
-import app from "../../index";
+import app from "../../src/index";
 import chaiHttp = require('chai-http');
 
 /**

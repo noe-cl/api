@@ -1,7 +1,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "outDir": "./test",
+        "outDir": "./out-test",
         "baseUrl": "src",
         "sourceMap": true,
         "declaration": false,
@@ -17,6 +17,6 @@
         ]
     },
     "include":[
-        "src/**/*.spec.ts"
+        "test/**/*.spec.ts"
     ]
 }

@@ -1,9 +1,9 @@
 # Sensitive data.
 src/config/config.json
 
-src/**/*.js
+**/*.js
 
-test
+out-test
 dist
 
 # Logs
