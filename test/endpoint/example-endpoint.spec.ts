@@ -1,31 +1,21 @@
-/**
- * Created by Miu on 29/04/2017.
- */
 import * as chai from "chai";
-import app from "../../src/index";
-import chaiHttp = require('chai-http');
-
+import {ExampleService} from "../../src/service/example-service";
+import {ExampleEndpoint} from "../../src/endpoint/example/example-endpoint";
 /**
- * Basic tests for the eexample endpoint, to explain how to test endpoints.
- */
-
-chai.use(chaiHttp);
+ *  example unit tests*/
 const expect = chai.expect;
 
-describe('baseRoute', () => {
+class MockService extends ExampleService {
+    public test(): string {
+        return "bar";
+    }
+}
 
-    it('should be json', () => {
-        return chai.request(app).get('/test')
-            .then(res => {
-                expect(res.type).to.eql('application/json');
-            });
+const endpoint = new ExampleEndpoint(new MockService());
+
+describe('ExampleEndpoint', () => {
+
+    it('should use mock service.', () => {
+        return expect(endpoint.getOne(1)).to.eql({result: "bar"});
     });
-
-    it('should have a message prop', () => {
-        return chai.request(app).get('/test/1')
-            .then(res => {
-                expect(res.body.result).to.eql("foo");
-            });
-    });
-
 });
