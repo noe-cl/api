@@ -1,10 +1,14 @@
 # Sensitive data.
 src/config/config.json
 
+**/*.js
+
+out-test
+dist
+
 # Logs
 logs
 *.log
-npm-debug.log*
 
 # Runtime data
 pids
