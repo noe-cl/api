@@ -22,7 +22,7 @@ class Server {
 
         this.routes();
 
-        this.start()
+        this.start();
     }
 
     private config(): void {

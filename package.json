@@ -17,6 +17,7 @@
     "@types/mysql": "0.0.32",
     "axios": "^0.16.1",
     "body-parser": "^1.17.1",
+    "es6-promise": "^4.1.0",
     "express": "^4.15.2",
     "helmet": "^3.5.0",
     "jsonwebtoken": "^7.3.0",
@@ -27,8 +28,8 @@
     "sequelize": "^3.30.4"
   },
   "devDependencies": {
-    "@types/chai": "^3.4.34",
-    "@types/chai-http": "0.0.29",
+    "@types/chai": "^3.5.2",
+    "@types/chai-http": "0.0.30",
     "@types/mocha": "^2.2.32",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",

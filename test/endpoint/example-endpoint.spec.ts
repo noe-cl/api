@@ -1,9 +1,9 @@
-import * as chai from "chai";
+import {expect} from "chai";
 import {ExampleService} from "../../src/service/example-service";
 import {ExampleEndpoint} from "../../src/endpoint/example/example-endpoint";
 /**
- *  example unit tests*/
-const expect = chai.expect;
+ *  example unit tests
+ */
 
 class MockService extends ExampleService {
     public test(): string {
