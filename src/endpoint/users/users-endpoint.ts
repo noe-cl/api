@@ -22,15 +22,18 @@ export class UsersEndpoint {
 
     @GetAll
     public getAll(): User[] {
-        this.repo.find();
+        this.repo.getAll();
         let userArray = [];
         return userArray;
     }
 
     @Post
-    public post(body: any): any {
-        console.log("iufzifuirfuerifu");
-        return this.repo.create();
+    public post(body: User): any {
+        this.repo.create(body).then((user) => {
+            return user;
+        }).catch((error) => {
+            return error;
+        });
     }
 
     @Put
