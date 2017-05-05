@@ -1,15 +1,18 @@
 import { MysqlDriver } from '../config/connection';
 import { Promise } from "es6-promise";
 import { Injectable } from "../../core/decorator/injectable";
+import { Repository } from "../../core/repository";
+import { User } from "../bean/user";
+import { Role } from "../bean/role";
 
 @Injectable
-export class UserRepository {
+export class UserRepository implements Repository<User> {
 
     constructor(private db: MysqlDriver) {
     }
 
-    getAll(): Promise<User> {
-        return new Promise<User>((resolve, reject) => {
+    getAll(): Promise<User[]> {
+        return new Promise<User[]>((resolve, reject) => {
             this.db.connection.query("SELECT * FROM users;", (error, results, field) => {
                 if (error) {
                     console.log(error);
@@ -20,8 +23,8 @@ export class UserRepository {
         });
     }
 
-    get(id: number): User {
-        return {} as User;
+    get(id: number): Promise<User> {
+        return null;
     }
 
     create(user: User): Promise<User> {
@@ -42,8 +45,8 @@ export class UserRepository {
         });
     }
 
-    update(id: number, user: User): User {
-        return {} as User;
+    update(id: number, user: User): Promise<User> {
+        return null;
     }
 
     delete(id: number): void {
