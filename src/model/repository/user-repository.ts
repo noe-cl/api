@@ -10,20 +10,18 @@ export class UserRepository {
 
     getAll(): Promise<User> {
         return new Promise<User>((resolve, reject) => {
-            this.db.connection.query("SELECT * FROM users;", (error, field, results) => {
+            this.db.connection.query("SELECT * FROM users;", (error, results, field) => {
                 if (error) {
                     console.log(error);
-                } else {
-                    console.log("ok");
                 }
-                //console.dir(results);
+                console.dir(results);
                 //resolve();
             });
         });
     }
 
-    get(id: number) {
-
+    get(id: number): User {
+        return {} as User;
     }
 
     create(user: User): Promise<User> {
@@ -44,9 +42,11 @@ export class UserRepository {
         });
     }
 
-    update(id: number) { }
+    update(id: number, user: User): User {
+        return {} as User;
+    }
 
-    delete(id: number) {
+    delete(id: number): void {
 
     }
 }
