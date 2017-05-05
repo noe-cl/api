@@ -8,7 +8,7 @@ export class UserRepository {
     constructor(private db: MysqlDriver) {
     }
 
-    find(): Promise<User> {
+    getAll(): Promise<User> {
         return new Promise<User>((resolve, reject) => {
             this.db.connection.query("SELECT * FROM users;", (error, field, results) => {
                 if (error) {
@@ -22,27 +22,31 @@ export class UserRepository {
         });
     }
 
-    get(id) {
+    get(id: number) {
 
     }
 
-    create(): Promise<User> {
+    create(user: User): Promise<User> {
         return new Promise<User>((resolve, reject) => {
-            console.log("repo");
-            this.db.connection.query("INSERT INTO users (lodestoneId,login,password,id_role) VALUES (?,?,?,?)", ["10404168", "erezia", "test", 5], (error, results, field) => {
+            this.db.connection.query("INSERT INTO users (lodestoneId,login,password,id_role) VALUES (?,?,?,?)", [user.lodestoneId, user.login, "test", 5], (error, results, field) => {
                 if (error) {
                     console.error(error);
                     reject(error);
                 }
                 console.dir(results);
-                resolve(results)
+                let returnedUser = {} as User;
+                returnedUser.lodestoneId = user.lodestoneId;
+                returnedUser.login = user.login;
+                returnedUser.role = {} as Role;
+                returnedUser.role.id = 5;
+                resolve(returnedUser);
             });
         });
     }
 
-    update() { }
+    update(id: number) { }
 
-    delete(id) {
+    delete(id: number) {
 
     }
 }
