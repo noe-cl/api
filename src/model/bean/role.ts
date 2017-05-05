@@ -1,4 +1,4 @@
 interface Role {
-    id: string;
+    id: number;
     role: string;
 }
