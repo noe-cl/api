@@ -1,12 +1,12 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import {ExampleEndpoint} from "./endpoint/example/example-endpoint";
-import {APIRouter} from "./core/api-router";
-
+import { ExampleEndpoint } from "./endpoint/example/example-endpoint";
+import { APIRouter } from "./core/api-router";
+import { UsersEndpoint } from "./endpoint/users/users-endpoint";
 
 // All of the endpoints have to be added to this array in order to get them loaded into the API.
-const endpoints: (new(...args: any[]) => any)[] = [
-    ExampleEndpoint
+const endpoints: (new (...args: any[]) => any)[] = [
+    ExampleEndpoint, UsersEndpoint
 ];
 
 class Server {
