@@ -6,6 +6,7 @@ import { Delete } from "../../core/decorator/delete";
 import { GetAll } from "../../core/decorator/get-all";
 
 import { UserRepository } from "../../model/repository/user-repository";
+import { User } from "../../model/bean/user";
 
 @Endpoint({
     route: '/users'
