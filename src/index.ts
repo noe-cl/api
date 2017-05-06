@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import {ExampleEndpoint} from "./endpoint/example/example-endpoint";
-import {APIRouter} from "./core/api-router";
+import { ExampleEndpoint } from "./endpoint/example/example-endpoint";
+import { APIRouter } from "./core/api-router";
 
 
 // All of the endpoints have to be added to this array in order to get them loaded into the API.
@@ -39,7 +39,7 @@ class Server {
 
     private start(): void {
         this.app.listen(this.port, () => {
-            console.log("Server is running");
+            console.log("Server is running on port " + this.port);
         });
     }
 
