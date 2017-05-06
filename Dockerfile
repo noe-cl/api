@@ -10,6 +10,6 @@ RUN npm run build
 
 VOLUME /src/config
 
-EXPOSE 3000
+EXPOSE 80
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/index.js", "80"]
