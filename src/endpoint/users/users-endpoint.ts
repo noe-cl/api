@@ -33,7 +33,7 @@ export class UsersEndpoint {
 
     @Put
     public put(id: number, body: User): Promise<User> {
-        return this.repo.update(body.lodestoneId, body);
+        return this.repo.update(id, body);
     }
 
     @Delete
