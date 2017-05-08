@@ -5,71 +5,22 @@ import { UsersEndpoint } from "../../src/endpoint/users/users-endpoint";
 import { Promise } from "es6-promise";
 import { User } from "../../src/model/bean/user";
 import { IConnection } from "mysql";
+import { Injector } from "../../src/core/injector";
+import { MockMysqlDriver } from "../mock/mysql-driver";
+import { MockUserRepository } from "../mock/repository/user-repository";
 
 /**
  *  users endpoint unit tests.
  */
-class MockMysqlDriver implements MysqlDriver{
-    connection: IConnection;
 
-    constructor() {
-    }
-}
 
-class MockRepository extends UserRepository {
+Injector.activateTestingMode();
 
-    constructor() {
-        super(new MockMysqlDriver());
-    }
+Injector.registerMock(MysqlDriver, MockMysqlDriver);
+Injector.registerMock(UserRepository, MockUserRepository);
 
-    getAll(): Promise<User[]> {
-        return new Promise<User[]>((resolve) => {
-            const user: User = {
-                lodestoneId: 1,
-                login: "foo",
-                password: "bar",
-                role: {
-                    id: 1,
-                    role: "tester"
-                }
-            };
-            resolve([user]);
-        });
-    }
 
-    get(id: number) {
-        return new Promise<User>((resolve) => {
-            const user: User = {
-                lodestoneId: id,
-                login: "foo",
-                password: "bar",
-                role: {
-                    id: 1,
-                    role: "tester"
-                }
-            };
-            resolve(user);
-        });
-    }
-
-    create(user: User): Promise<User> {
-        return new Promise<User>((resolve) => {
-            resolve(user);
-        });
-    }
-
-    update(id: number, user: User): Promise<User> {
-        return new Promise<User>((resolve) => {
-            resolve(user);
-        });
-    }
-
-    delete(id: number): void {
-    }
-
-}
-
-const endpoint = new UsersEndpoint(new MockRepository());
+const endpoint = Injector.instantiate(UsersEndpoint);
 
 describe('UsersEndpoint', () => {
 
@@ -117,7 +68,7 @@ describe('UsersEndpoint', () => {
     });
 
     it('should delete', () => {
-        expect(endpoint.delete(1346)).to.eq(null);
+        expect(endpoint.delete(1346)).to.eq(undefined);
     });
 
 });

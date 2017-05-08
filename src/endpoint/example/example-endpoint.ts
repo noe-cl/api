@@ -1,10 +1,11 @@
-import {Endpoint} from "../../core/decorator/endpoint";
-import {GetOne} from "../../core/decorator/get-one";
-import {Post} from "../../core/decorator/post";
-import {Put} from "../../core/decorator/put";
-import {Delete} from "../../core/decorator/delete";
-import {GetAll} from "../../core/decorator/get-all";
-import {ExampleService} from "../../service/example-service";
+import { Endpoint } from "../../core/decorator/endpoint";
+import { GetOne } from "../../core/decorator/get-one";
+import { Post } from "../../core/decorator/post";
+import { Put } from "../../core/decorator/put";
+import { Delete } from "../../core/decorator/delete";
+import { GetAll } from "../../core/decorator/get-all";
+import { ExampleService } from "../../service/example-service";
+import { Promise } from 'es6-promise';
 /**
  * Created by Miu on 29/04/2017.
  *
@@ -13,14 +14,14 @@ import {ExampleService} from "../../service/example-service";
 @Endpoint({
     route: '/test'
 })
-export class ExampleEndpoint{
+export class ExampleEndpoint {
 
     constructor(private a: ExampleService) {
     }
 
     @GetOne
-    public getOne(id: number): any {
-        return {result: this.a.test()};
+    public getOne(id: number): Promise<any> {
+        return new Promise(resolve => resolve({result: this.a.test()}));
     }
 
     @Post

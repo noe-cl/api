@@ -1,7 +1,7 @@
 /**
  * Created by Miu on 29/04/2017.
  */
-import {use, request, expect} from "chai";
+import { use, request, expect } from "chai";
 import app from "../src/index";
 
 /**
@@ -20,10 +20,10 @@ describe('baseRoute', () => {
             });
     });
 
-    it('should have a message prop', () => {
+    it('should support direct promise binding', () => {
         return request(app).get('/test/1')
             .then(res => {
-                expect(res.body.result).to.eql("foo");
+                expect(res.body.result).not.to.eq(undefined);
             });
     });
 
