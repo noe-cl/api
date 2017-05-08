@@ -38,13 +38,17 @@ export class UsersEndpoint {
     }
 
     @Put
-    public put(): any {
-
+    public put(id: number, body: User): any {
+        this.repo.update(body.lodestoneId, body).then((user) => {
+            return user;
+        }).catch((error) => {
+            return error;
+        })
     }
 
     @Delete
-    public delete(): void {
-
+    public delete(id: number): any {
+        this.repo.delete(id);
     }
 
 }
