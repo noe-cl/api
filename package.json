@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "copy": "copy",
     "start": "node dist/index.js",
-    "tsc": "tsc",
-    "build": "tsc -p tsconfig.json && cp ./src/config/config.json ./dist/config/config.json",
+    "tsc": "tsc -p tsconfig.json ",
+    "build": "tsc -p tsconfig.json && npm run copy src/config/config.json ./dist/config/",
     "test": "tsc -p tsconfig.test.json && mocha --opts mocha.opts"
   },
   "author": "mJehanno",
@@ -18,8 +19,10 @@
     "@types/mysql": "0.0.32",
     "axios": "^0.16.1",
     "body-parser": "^1.17.1",
+    "copy": "^0.3.0",
     "es6-promise": "^4.1.0",
     "express": "^4.15.2",
+    "express-promise": "^0.4.0",
     "helmet": "^3.5.0",
     "jsonwebtoken": "^7.3.0",
     "mysql": "^2.13.0",

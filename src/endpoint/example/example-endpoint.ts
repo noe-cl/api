@@ -13,7 +13,7 @@ import {ExampleService} from "../../service/example-service";
 @Endpoint({
     route: '/test'
 })
-export class ExampleEndpoint {
+export class ExampleEndpoint{
 
     constructor(private a: ExampleService) {
     }

@@ -27,6 +27,7 @@ class Server {
 
     private config(): void {
         this.app.use(bodyParser.json());
+        this.app.use(require('express-promise')());
     }
 
     private routes(): void {

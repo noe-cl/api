@@ -17,37 +17,27 @@ export class UsersEndpoint {
     }
 
     @GetOne
-    public getOne(id: number): any {
-
+    public getOne(id: number): Promise<User> {
+        return this.repo.get(id);
     }
 
     @GetAll
-    public getAll(): User[] {
-        this.repo.getAll();
-        let userArray = [];
-        return userArray;
+    public getAll(): Promise<User[]> {
+        return this.repo.getAll();
     }
 
     @Post
-    public post(body: User): any {
-        this.repo.create(body).then((user) => {
-            return user;
-        }).catch((error) => {
-            return error;
-        });
+    public post(body: User): Promise<User> {
+        return this.repo.create(body);
     }
 
     @Put
-    public put(id: number, body: User): any {
-        this.repo.update(body.lodestoneId, body).then((user) => {
-            return user;
-        }).catch((error) => {
-            return error;
-        })
+    public put(id: number, body: User): Promise<User> {
+        return this.repo.update(body.lodestoneId, body);
     }
 
     @Delete
-    public delete(id: number): any {
+    public delete(id: number): void {
         this.repo.delete(id);
     }
 
