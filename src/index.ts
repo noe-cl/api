@@ -3,16 +3,20 @@ import * as bodyParser from "body-parser";
 import { ExampleEndpoint } from "./endpoint/example/example-endpoint";
 import { APIRouter } from "./core/api-router";
 import { UsersEndpoint } from "./endpoint/users/users-endpoint";
+import { AuthEndpoint } from "./endpoint/auth/auth-endpoint";
 
 // All of the endpoints have to be added to this array in order to get them loaded into the API.
 const endpoints: (new (...args: any[]) => any)[] = [
-    ExampleEndpoint, UsersEndpoint
+    ExampleEndpoint,
+    UsersEndpoint,
+    AuthEndpoint
 ];
 
 class Server {
 
     port: number;
     app: express.Application;
+    router:APIRouter;
 
     constructor() {
         this.port = parseInt(process.argv[2]) || 3000;
@@ -31,11 +35,11 @@ class Server {
     }
 
     private routes(): void {
-        let router: APIRouter = new APIRouter(express.Router());
+        this.router = new APIRouter(express.Router());
         for (let endpoint of endpoints) {
-            router.addEndpoint(endpoint);
+            this.router.addEndpoint(endpoint);
         }
-        this.app.use(router.router);
+        this.app.use(this.router.router);
     }
 
     private start(): void {
@@ -50,4 +54,4 @@ class Server {
 
 }
 
-export default Server.bootstrap().app;
+export default Server.bootstrap();

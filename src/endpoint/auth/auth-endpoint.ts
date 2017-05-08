@@ -19,7 +19,7 @@ export class AuthEndpoint {
     constructor(private db: MysqlDriver, private config: Config) {
     }
 
-    @Post
+    @Post()
     post(data: any): Promise<{ token: string }> {
         if (data.login === undefined || data.password === undefined) {
             throw new APIError(400, "Bad Request");
@@ -32,11 +32,12 @@ export class AuthEndpoint {
                 if (results.length === 0) {
                     throw new APIError(400, "Bad credentials.");
                 }
-                let user = results[0] as User;
+                let user = results[0];
                 resolve({
                     token: jwt.sign({
                         nickname: user.login,
-                        lodestoneId: user.lodestoneId
+                        lodestoneId: user.lodestoneId,
+                        role: user.id_role
                     }, this.config.data.jwt.secret)
                 });
             });

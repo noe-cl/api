@@ -5,15 +5,11 @@ import { IError, IFieldInfo } from "mysql";
 import { Config, ConfigModel } from "../../src/config/config";
 import { AuthEndpoint } from "../../src/endpoint/auth/auth-endpoint";
 import * as jwt from 'jsonwebtoken';
-import { User } from "../../src/model/bean/user";
-/**
- *  example unit tests
- */
 
 class MockDriver {
 
     public query = (sql: string, values: any[], callback: (err: IError, results?: any, fields?: IFieldInfo[]) => void): any => {
-        callback(null, [{lodestoneId: 123456789, login: "FooLogin"}]);
+        callback(null, [{lodestoneId: 123456789, login: "FooLogin", id_role: 1}]);
     }
 }
 
@@ -46,6 +42,7 @@ describe('AuthEndpoint', () => {
             let decoded = jwt.verify(data.token, "OmgI'mSoSecret");
             expect(decoded.nickname).to.eql("FooLogin");
             expect(decoded.lodestoneId).to.eql(123456789);
+            expect(decoded.role).to.eql(1);
         });
     });
 });

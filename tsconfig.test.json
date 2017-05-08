@@ -2,7 +2,7 @@
     "compileOnSave": false,
     "compilerOptions": {
         "outDir": "./out-test",
-        "baseUrl": "src",
+        "baseUrl": "test",
         "sourceMap": true,
         "declaration": false,
         "moduleResolution": "node",
