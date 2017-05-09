@@ -47,7 +47,7 @@ class Server {
 
     private start(): void {
         this.app.listen(this.port, () => {
-            console.log("Server is running");
+            console.log("Server is running on port " + this.port);
         });
     }
 
