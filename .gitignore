@@ -2,6 +2,7 @@
 src/config/config.json
 
 **/*.js
+**/*.js.map
 
 out-test
 dist

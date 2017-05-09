@@ -19,27 +19,27 @@ export class ExampleEndpoint {
     constructor(private a: ExampleService) {
     }
 
-    @GetOne
+    @GetOne()
     public getOne(id: number): Promise<any> {
         return new Promise(resolve => resolve({result: this.a.test()}));
     }
 
-    @Post
+    @Post()
     public post(body: any): any {
         return body;
     }
 
-    @Put
+    @Put()
     put(id: number, body: any): any {
         return {id: id, data: body};
     }
 
-    @Delete
+    @Delete()
     delete(id: number): any {
         return {id: id};
     }
 
-    @GetAll
+    @GetAll()
     getAll(): any[] {
         return [1, 2, 3, 4, 5, 6, 7, 8, 9];
     }

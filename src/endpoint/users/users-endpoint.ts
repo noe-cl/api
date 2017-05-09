@@ -16,27 +16,27 @@ export class UsersEndpoint {
     constructor(private repo: UserRepository) {
     }
 
-    @GetOne
+    @GetOne()
     public getOne(id: number): Promise<User> {
         return this.repo.get(id);
     }
 
-    @GetAll
+    @GetAll()
     public getAll(): Promise<User[]> {
         return this.repo.getAll();
     }
 
-    @Post
+    @Post()
     public post(body: User): Promise<User> {
         return this.repo.create(body);
     }
 
-    @Put
+    @Put()
     public put(id: number, body: User): Promise<User> {
         return this.repo.update(id, body);
     }
 
-    @Delete
+    @Delete()
     public delete(id: number): void {
         this.repo.delete(id);
     }

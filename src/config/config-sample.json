@@ -1,9 +1,12 @@
 {
-  "db": {
-    "host": "localhost",
-    "user": "noe",
-    "database": "noe",
-    "password": "password",
-    "port": 3306
-  }
+    "db": {
+        "host": "localhost",
+        "user": "noe",
+        "database": "noe",
+        "password": "password",
+        "port": 3306
+    },
+    "jwt": {
+        "secret": "OmgI'mSoSecret"
+    }
 }

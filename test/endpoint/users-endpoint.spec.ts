@@ -2,12 +2,12 @@ import { expect } from "chai";
 import { UserRepository } from "../../src/model/repository/user-repository";
 import { MysqlDriver } from "../../src/model/config/connection";
 import { UsersEndpoint } from "../../src/endpoint/users/users-endpoint";
-import { Promise } from "es6-promise";
 import { User } from "../../src/model/bean/user";
-import { IConnection } from "mysql";
 import { Injector } from "../../src/core/injector";
 import { MockMysqlDriver } from "../mock/mysql-driver";
 import { MockUserRepository } from "../mock/repository/user-repository";
+import { Config } from "../../src/config/config";
+import { MockConfig } from "../mock/config";
 
 /**
  *  users endpoint unit tests.
@@ -18,6 +18,7 @@ Injector.activateTestingMode();
 
 Injector.registerMock(MysqlDriver, MockMysqlDriver);
 Injector.registerMock(UserRepository, MockUserRepository);
+Injector.registerMock(Config, MockConfig);
 
 
 const endpoint = Injector.instantiate(UsersEndpoint);

@@ -2,17 +2,18 @@ import * as mysql from 'mysql';
 import * as fs from "fs";
 import * as path from "path";
 import { Injectable } from "../../core/decorator/injectable";
+import { Config } from "../../config/config";
+import { IQueryFunction } from "mysql";
 
 
 
 @Injectable
 export class MysqlDriver {
     connection: mysql.IConnection;
-    constructor() {
 
-        const config = JSON.parse(fs.readFileSync(path.join(__dirname, '../../config/config.json'), 'utf8'));
+    constructor(private config:Config) {
 
-        this.connection = mysql.createConnection(config.db);
+        this.connection = mysql.createConnection(config.data.db);
 
         this.connection.connect((err) => {
             if (err) {
@@ -21,4 +22,6 @@ export class MysqlDriver {
             }
         });
     }
+
+    public query:IQueryFunction;
 }
