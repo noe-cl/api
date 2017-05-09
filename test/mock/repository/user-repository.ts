@@ -2,6 +2,7 @@ import { UserRepository } from "../../../src/model/repository/user-repository";
 import { User } from "../../../src/model/bean/user";
 import { Promise } from 'es6-promise';
 import { APIError } from "../../../src/core/api-error";
+import { Repository } from "../../../src/core/db/repository";
 
 /**
  * Created by Miu on 08/05/2017.
@@ -27,7 +28,7 @@ export class MockUserRepository extends UserRepository {
     get(id: number) {
         return new Promise<User>((resolve, reject) => {
             if (id === 1337) {
-                reject(new APIError(404, "Not Found."));
+                reject(new APIError(404, Repository.NOT_FOUND));
             } else {
                 const user: User = {
                     lodestoneId: id,

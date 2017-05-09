@@ -51,6 +51,13 @@ describe('Server', () => {
             });
     });
 
+    it('should return 404 on resource that does not exists.', () => {
+        return request(server.app).get('/test/1337')
+            .catch(err => {
+                expect(err.status).to.eq(404);
+            });
+    });
+
     it('should handle secure requests', () => {
         let token = jwt.sign({
             nickname: "user.login",

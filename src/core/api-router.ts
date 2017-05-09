@@ -50,16 +50,12 @@ export class APIRouter {
 
     private addImplementation(route: string, method: Method, instance: any, impl: string, secure: boolean): void {
         let finalImpl = (req: Request, res: Response) => {
-            try {
-                if ([Method.GET, Method.DELETE].indexOf(method) > -1) {
-                    return res.json(instance[impl](req.params.id, (<any>req).user));
-                } else if (method === Method.POST) {
-                    return res.json(instance[impl](req.body, (<any>req).user));
-                } else if (method === Method.PUT) {
-                    return res.json(instance[impl](req.params.id, req.body, (<any>req).user));
-                }
-            } catch (e) {
-                return res.status(e.code || 500).json({message: e.message});
+            if ([Method.GET, Method.DELETE].indexOf(method) > -1) {
+                return res.json(instance[impl](req.params.id, (<any>req).user));
+            } else if (method === Method.POST) {
+                return res.json(instance[impl](req.body, (<any>req).user));
+            } else if (method === Method.PUT) {
+                return res.json(instance[impl](req.params.id, req.body, (<any>req).user));
             }
         };
         switch (method) {

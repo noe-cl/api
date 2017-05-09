@@ -6,6 +6,7 @@ import { Delete } from "../../core/decorator/delete";
 import { GetAll } from "../../core/decorator/get-all";
 import { ExampleService } from "../../service/example-service";
 import { Promise } from 'es6-promise';
+import { APIError } from "../../core/api-error";
 /**
  * Created by Miu on 29/04/2017.
  *
@@ -21,7 +22,13 @@ export class ExampleEndpoint {
 
     @GetOne()
     public getOne(id: number): Promise<any> {
-        return new Promise(resolve => resolve({result: this.a.test()}));
+        return new Promise((resolve, reject) => {
+            if (id === 1337) {
+                reject(new APIError(404, "Not found."));
+            } else {
+                resolve({result: this.a.test()});
+            }
+        });
     }
 
     @Post()

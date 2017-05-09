@@ -2,6 +2,7 @@ import * as mysql from "mysql";
 import { Injectable } from "../decorator/injectable";
 import { Config } from "../../config/config";
 import { APIError } from "../api-error";
+import { Promise } from 'es6-promise';
 
 
 @Injectable

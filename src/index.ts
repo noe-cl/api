@@ -4,6 +4,7 @@ import { ExampleEndpoint } from "./endpoint/example/example-endpoint";
 import { APIRouter } from "./core/api-router";
 import { UsersEndpoint } from "./endpoint/users/users-endpoint";
 import { AuthEndpoint } from "./endpoint/auth/auth-endpoint";
+import { APIError } from "./core/api-error";
 
 // All of the endpoints have to be added to this array in order to get them loaded into the API.
 const endpoints: (new (...args: any[]) => any)[] = [
@@ -16,7 +17,7 @@ class Server {
 
     port: number;
     app: express.Application;
-    router:APIRouter;
+    router: APIRouter;
 
     constructor() {
         this.port = parseInt(process.argv[2]) || 3000;
@@ -40,6 +41,8 @@ class Server {
             this.router.addEndpoint(endpoint);
         }
         this.app.use(this.router.router);
+
+        this.app.use(this.errorHandler);
     }
 
     private start(): void {
@@ -47,6 +50,13 @@ class Server {
             console.log("Server is running");
         });
     }
+
+    private errorHandler = (err:APIError, req, res, next) => {
+        if (res.headersSent) {
+            return next(err);
+        }
+        return res.status(err.code || 500).send(err.message);
+    };
 
     public static bootstrap(): Server {
         return new Server();

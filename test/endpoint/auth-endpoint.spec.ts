@@ -5,6 +5,7 @@ import { Config } from "../../src/config/config";
 import { AuthEndpoint } from "../../src/endpoint/auth/auth-endpoint";
 import * as jwt from "jsonwebtoken";
 import { MockConfig } from "../mock/config";
+import { Promise } from 'es6-promise';
 
 class MockDriver extends MysqlDriver {
 

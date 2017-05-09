@@ -1,6 +1,7 @@
 import { MysqlDriver } from "./mysql-driver";
 import { Injectable } from "../decorator/injectable";
 import { APIError } from "../api-error";
+import { Promise } from 'es6-promise';
 /**
  * Created by miu on 09/05/17.
  */
@@ -68,7 +69,7 @@ export abstract class Repository<T> {
      * @param idFieldName
      * @returns {Promise<T>|Promise}
      */
-    update(id: number, model: T, idFieldName: string = "id"): Promise <T> {
+    update(id: number, model: T, idFieldName: string = "id"): Promise<T> {
         let parsed = this.parseModel(model);
         return new Promise<T>((resolve, reject) => {
             this.db.query("UPDATE ?? SET ? WHERE ?? = ?", [this.getTable(), parsed, idFieldName, id]).then(results => {
@@ -87,7 +88,7 @@ export abstract class Repository<T> {
      * @param idFieldName
      * @returns {Promise<void>|Promise}
      */
-    delete(id: number, idFieldName: string = "id"): Promise < void > {
+    delete(id: number, idFieldName: string = "id"): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             this.db.query("DELETE FROM ?? WHERE ?? = ?", [this.getTable(), idFieldName, id]).then(results => {
                 if (results.changedRows === 0) {

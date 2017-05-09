@@ -1,6 +1,7 @@
 import { MysqlDriver } from "../../src/core/db/mysql-driver";
 import { Config } from "../../src/config/config";
 import * as mysql from 'mysql';
+import { Promise } from 'es6-promise';
 /**
  * Created by Miu on 08/05/2017.
  */
@@ -12,12 +13,12 @@ export class MockMysqlDriver extends MysqlDriver {
     /**
      * Used for SELECT * FROM <table> queries.
      */
-    public static mockTables: {table: string, data: any}[] = [];
+    public static mockTables: { table: string, data: any }[] = [];
 
     /**
      * Used for SELECT * FROM <table> WHERE... queries.
      */
-    public static mockRows: {table: string, data: any}[] = [];
+    public static mockRows: { table: string, data: any }[] = [];
 
     constructor(config: Config) {
         super(config);
