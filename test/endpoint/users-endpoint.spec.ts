@@ -72,13 +72,13 @@ describe('UsersEndpoint', () => {
                 role: "tester"
             }
         };
-        return endpoint.put(13246, user).then(one => {
+        return endpoint.put(13246, user, user).then(one => {
             expect(one.login).to.eq("foo");
         });
     });
 
     it('should delete', () => {
-        return endpoint.delete(1346);
+        return endpoint.delete(1346, {role: 1});
     });
 
 });

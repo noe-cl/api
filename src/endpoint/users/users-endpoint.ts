@@ -7,6 +7,12 @@ import { GetAll } from "../../core/decorator/get-all";
 
 import { UserRepository } from "../../model/repository/user-repository";
 import { User } from "../../model/bean/user";
+import { Promise } from "es6-promise";
+import { ModelChecker } from "../../core/security/model-checker";
+import { APIError } from "../../core/api-error";
+import { AuthToken } from "../../core/security/auth-token";
+
+import * as sha from "sha256";
 
 @Endpoint({
     route: '/users'
@@ -28,17 +34,42 @@ export class UsersEndpoint {
 
     @Post()
     public post(body: User): Promise<User> {
-        return this.repo.create(body);
+        return new Promise<User>((resolve, reject) => {
+            if (ModelChecker.hasProperties(body, ['login', 'password', 'lodestoneId'])) {
+                body.password = sha(body.password);
+                this.repo.create(body).then(user => {
+                    delete user.password;
+                    resolve(user);
+                }).catch(reject);
+            } else {
+                reject(new APIError(400, "Bad Request"));
+            }
+        });
     }
 
-    @Put()
-    public put(id: number, body: User): Promise<User> {
-        return this.repo.update(id, body);
+    @Put(true)
+    public put(id: number, body: User, token: AuthToken): Promise<User> {
+        return new Promise<User>((resolve, reject) => {
+            if (token.role <= 2 || parseInt(token.lodestoneId) === id) {
+                if (body.hasOwnProperty('password')) {
+                    body.password = sha(body.password);
+                }
+                this.repo.update(id, body).then(resolve).catch(reject);
+            } else {
+                reject(new APIError(403, "Forbidden"));
+            }
+        });
     }
 
-    @Delete()
-    public delete(id: number): Promise<void> {
-        return this.repo.delete(id);
+    @Delete(true)
+    public delete(id: number, token: AuthToken): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            if (token.role <= 2 || parseInt(token.lodestoneId) === id) {
+                this.repo.delete(id).then(resolve).catch(reject);
+            } else {
+                reject(new APIError(403, "Forbidden"));
+            }
+        });
     }
 
 }
