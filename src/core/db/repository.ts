@@ -1,7 +1,7 @@
 import { MysqlDriver } from "./mysql-driver";
 import { Injectable } from "../decorator/injectable";
 import { APIError } from "../api-error";
-import { Promise } from 'es6-promise';
+import { Promise } from "es6-promise";
 /**
  * Created by miu on 09/05/17.
  */

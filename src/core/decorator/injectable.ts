@@ -1,4 +1,4 @@
-import {Injector} from "../injector";
+import { Injector } from "../injector";
 /**
  * Created by Miu on 01/05/2017.
  */

@@ -5,7 +5,7 @@ import { Put } from "../../core/decorator/put";
 import { Delete } from "../../core/decorator/delete";
 import { GetAll } from "../../core/decorator/get-all";
 import { ExampleService } from "../../service/example-service";
-import { Promise } from 'es6-promise';
+import { Promise } from "es6-promise";
 import { APIError } from "../../core/api-error";
 /**
  * Created by Miu on 29/04/2017.

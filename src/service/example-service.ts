@@ -1,4 +1,4 @@
-import {Injectable} from "../core/decorator/injectable";
+import { Injectable } from "../core/decorator/injectable";
 /**
  * Created by Miu on 01/05/2017.
  */

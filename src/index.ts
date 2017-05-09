@@ -51,7 +51,7 @@ class Server {
         });
     }
 
-    private errorHandler = (err:APIError, req, res, next) => {
+    private errorHandler = (err: APIError, req, res, next) => {
         if (res.headersSent) {
             return next(err);
         }

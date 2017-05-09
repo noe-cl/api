@@ -4,6 +4,6 @@ import { AuthToken } from "../security/auth-token";
  */
 export function GetOne(secure: boolean = false) {
     return (target: any, method: string, descriptor: TypedPropertyDescriptor<(id: number, token?: AuthToken) => any>) => {
-        Reflect.defineMetadata('getOne', {method : method, secure:secure}, target);
+        Reflect.defineMetadata('getOne', {method: method, secure: secure}, target);
     }
 }

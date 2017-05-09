@@ -4,6 +4,6 @@ import { AuthToken } from "../security/auth-token";
  */
 export function Put(secure: boolean = false) {
     return (target: any, method: string, descriptor: TypedPropertyDescriptor<(id: number, body: any, token?: AuthToken) => any>) => {
-        Reflect.defineMetadata('put', {method : method, secure:secure}, target);
+        Reflect.defineMetadata('put', {method: method, secure: secure}, target);
     }
 }

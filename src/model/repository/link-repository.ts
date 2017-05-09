@@ -2,16 +2,22 @@ import { MysqlDriver } from "../../core/db/mysql-driver";
 
 export class LinkDAO {
 
-    constructor( db:MysqlDriver ) { }
+    constructor(db: MysqlDriver) {
+    }
 
-    find() { }
+    find() {
+    }
 
-    get(id) { }
+    get(id) {
+    }
 
-    create() { }
+    create() {
+    }
 
-    update() { }
+    update() {
+    }
 
-    delete(id) { }
+    delete(id) {
+    }
 
 }

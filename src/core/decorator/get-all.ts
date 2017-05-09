@@ -5,6 +5,6 @@ import { AuthToken } from "../security/auth-token";
 export function GetAll(secure: boolean = false) {
     return (target: any, method: string,
             descriptor: TypedPropertyDescriptor<(token?: AuthToken) => Promise<any[]> | any[]>) => {
-        Reflect.defineMetadata('getAll', {method : method, secure:secure}, target);
+        Reflect.defineMetadata('getAll', {method: method, secure: secure}, target);
     }
 }
