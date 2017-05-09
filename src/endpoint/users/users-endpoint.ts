@@ -37,8 +37,8 @@ export class UsersEndpoint {
     }
 
     @Delete()
-    public delete(id: number): void {
-        this.repo.delete(id);
+    public delete(id: number): Promise<void> {
+        return this.repo.delete(id);
     }
 
 }

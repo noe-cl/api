@@ -32,6 +32,12 @@ describe('UsersEndpoint', () => {
         });
     });
 
+    it('should return 404 if not found', () => {
+        return endpoint.getOne(1337).catch(err => {
+            expect(err.status).to.eql(404);
+        })
+    });
+
     it('should get one', () => {
         return endpoint.getOne(158).then(one => {
             expect(one.login).to.eq("foo");

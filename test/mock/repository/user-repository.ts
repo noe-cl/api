@@ -1,6 +1,7 @@
 import { UserRepository } from "../../../src/model/repository/user-repository";
 import { User } from "../../../src/model/bean/user";
 import { Promise } from 'es6-promise';
+import { APIError } from "../../../src/core/api-error";
 
 /**
  * Created by Miu on 08/05/2017.
@@ -24,18 +25,22 @@ export class MockUserRepository extends UserRepository {
     }
 
     get(id: number) {
-        return new Promise<User>((resolve) => {
-            const user: User = {
-                lodestoneId: id,
-                login: "foo",
-                password: "bar",
-                role_id: 1,
-                role: {
-                    id: 1,
-                    role: "tester"
-                }
-            };
-            resolve(user);
+        return new Promise<User>((resolve, reject) => {
+            if (id === 1337) {
+                reject(new APIError(404, "Not Found."));
+            } else {
+                const user: User = {
+                    lodestoneId: id,
+                    login: "foo",
+                    password: "bar",
+                    role_id: 1,
+                    role: {
+                        id: 1,
+                        role: "tester"
+                    }
+                };
+                resolve(user);
+            }
         });
     }
 
