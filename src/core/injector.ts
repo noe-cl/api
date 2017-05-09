@@ -4,12 +4,24 @@ import "reflect-metadata";
  */
 export class Injector {
 
-    private static registry: { name: string, clazz: (new() => any) }[] = [];
+    private static registry: Registry = {};
+
+    private static mockRegistry: Registry = {};
+
+    private static testingMode = false;
 
     private static instances: { name: string, instance: any }[] = [];
 
+    public static registerMock(type: new(...args: any[]) => any, injectable: new(...args: any[]) => any): void {
+        this.mockRegistry[(<any>type).name] = injectable;
+    }
+
     public static register(name: string, injectable: new(...args: any[]) => any): void {
-        this.registry.push({name: name, clazz: injectable});
+        if (this.registry[name] === undefined) {
+            this.registry[name] = injectable;
+        } else {
+            console.warn("Tried to register injectable with name " + name + " but it's already taken.");
+        }
     }
 
     public static instantiate(clazz: new(...args: any[]) => any): any {
@@ -22,21 +34,29 @@ export class Injector {
                 injection.push(instance);
             }
         }
-        let test = Object.create(clazz.prototype);
-        test.constructor.apply(test, injection);
-        return test;
+        let finalInstance = Object.create(clazz.prototype);
+        finalInstance.constructor.apply(finalInstance, injection);
+        return finalInstance;
     }
 
     private static getInstance(name: string): any {
-        let serviceEntry = this.registry.filter(element => element.name === name)[0];
-        if (serviceEntry === undefined) {
+        let clazz = this.testingMode ? this.mockRegistry[name] || this.registry[name] : this.registry[name];
+        if (clazz === undefined) {
             throw new Error('No provider for service ' + name);
         }
         let instance = this.instances.filter(instance => instance.name === name)[0];
         if (instance === undefined) {
-            instance = {name: name, instance: this.instantiate(serviceEntry.clazz)};
+            instance = {name: name, instance: this.instantiate(clazz)};
             this.instances.push(instance);
         }
         return instance.instance;
     }
+
+    public static activateTestingMode(): void {
+        this.testingMode = true;
+    }
+}
+
+class Registry {
+    [index: string]: (new(...args: any[]) => any);
 }
