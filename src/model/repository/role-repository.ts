@@ -1,20 +1,24 @@
-import { MysqlDriver } from "../config/connection";
 const Role = require("../DTO/Role");
 
-export default class RoleRepository {
-    constructor({ db }) {
+export class RoleRepository {
+    constructor({db}) {
 
     }
 
-    find() { }
+    find() {
+    }
 
-    get(id) { }
+    get(id) {
+    }
 
 
-    create() { }
+    create() {
+    }
 
-    update() { }
+    update() {
+    }
 
-    delete(id) { }
+    delete(id) {
+    }
 
 }

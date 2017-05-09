@@ -5,6 +5,7 @@ import { Config, ConfigModel } from "../../src/config/config";
 export class MockConfig extends Config {
     public get data(): ConfigModel {
         return {
+            testing:true,
             db: {
                 host: "localhost",
                 user: "root",

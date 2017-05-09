@@ -1,16 +1,15 @@
 import { expect } from "chai";
 import { Injector } from "../../src/core/injector";
-import { MysqlDriver } from "../../src/model/config/connection";
-import { IError, IFieldInfo } from "mysql";
+import { MysqlDriver } from "../../src/core/db/mysql-driver";
 import { Config } from "../../src/config/config";
 import { AuthEndpoint } from "../../src/endpoint/auth/auth-endpoint";
 import * as jwt from "jsonwebtoken";
 import { MockConfig } from "../mock/config";
 
-class MockDriver {
+class MockDriver extends MysqlDriver {
 
-    public query = (sql: string, values: any[], callback: (err: IError, results?: any, fields?: IFieldInfo[]) => void): any => {
-        callback(null, [{lodestoneId: 123456789, login: "FooLogin", id_role: 1}]);
+    public query(sql: string, values: any[]): Promise<any> {
+        return Promise.resolve([{lodestoneId: 123456789, login: "FooLogin", id_role: 1}]);
     }
 }
 

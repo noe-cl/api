@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { UserRepository } from "../../src/model/repository/user-repository";
-import { MysqlDriver } from "../../src/model/config/connection";
+import { MysqlDriver } from "../../src/core/db/mysql-driver";
 import { UsersEndpoint } from "../../src/endpoint/users/users-endpoint";
 import { User } from "../../src/model/bean/user";
 import { Injector } from "../../src/core/injector";
@@ -43,6 +43,7 @@ describe('UsersEndpoint', () => {
             lodestoneId: 546879,
             login: "foo",
             password: "bar",
+            role_id: 1,
             role: {
                 id: 1,
                 role: "tester"
@@ -58,6 +59,7 @@ describe('UsersEndpoint', () => {
             lodestoneId: 13246,
             login: "foo",
             password: "bar",
+            role_id: 1,
             role: {
                 id: 1,
                 role: "tester"
@@ -69,7 +71,7 @@ describe('UsersEndpoint', () => {
     });
 
     it('should delete', () => {
-        expect(endpoint.delete(1346)).to.eq(undefined);
+        return endpoint.delete(1346);
     });
 
 });

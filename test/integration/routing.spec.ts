@@ -2,14 +2,14 @@
  * Created by Miu on 29/04/2017.
  */
 import { use, request, expect } from "chai";
-import server from "../src/index";
-import { Endpoint } from "../src/core/decorator/endpoint";
-import { AuthToken } from "../src/core/security/auth-token";
-import { GetOne } from "../src/core/decorator/get-one";
+import server from "../../src/index";
+import { Endpoint } from "../../src/core/decorator/endpoint";
+import { AuthToken } from "../../src/core/security/auth-token";
+import { GetOne } from "../../src/core/decorator/get-one";
 import * as jwt from "jsonwebtoken";
-import { Injector } from "../src/core/injector";
-import { Config } from "../src/config/config";
-import { MockConfig } from "./mock/config";
+import { Injector } from "../../src/core/injector";
+import { Config } from "../../src/config/config";
+import { MockConfig } from "../mock/config";
 
 /**
  * Basic tests for the example endpoint, to explain how to test endpoints.

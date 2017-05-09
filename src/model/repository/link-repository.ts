@@ -1,8 +1,8 @@
-import { MysqlDriver } from "../config/connection";
+import { MysqlDriver } from "../../core/db/mysql-driver";
 
-export default class LinkDAO {
+export class LinkDAO {
 
-    constructor({ db }) { }
+    constructor( db:MysqlDriver ) { }
 
     find() { }
 

@@ -2,11 +2,10 @@ import { Endpoint } from "../../core/decorator/endpoint";
 import { Post } from "../../core/decorator/post";
 import { APIError } from "../../core/api-error";
 import * as jwt from "jsonwebtoken";
-import { MysqlDriver } from "../../model/config/connection";
+import { MysqlDriver } from "../../core/db/mysql-driver";
 import { Config } from "../../config/config";
 import { Promise } from "es6-promise";
 import * as sha from "sha256";
-import { User } from "../../model/bean/user";
 /**
  * Created by Miu on 08/05/2017.
  */
@@ -20,15 +19,12 @@ export class AuthEndpoint {
     }
 
     @Post()
-    post(data: any): Promise<{ token: string }> {
+    post(data: any): Promise<{token: string}> {
         if (data.login === undefined || data.password === undefined) {
             throw new APIError(400, "Bad Request");
         }
-        return new Promise<{ token: string }>((resolve) => {
-            this.db.query("Select * from users WHERE login = ? AND password = ?", [data.login, sha(data.password)], (error, results) => {
-                if (error) {
-                    throw new APIError(500, error.toString());
-                }
+        return new Promise<{token: string}>((resolve) => {
+            this.db.query("Select * from users WHERE login = ? AND password = ?", [data.login, sha(data.password)]).then(results => {
                 if (results.length === 0) {
                     throw new APIError(400, "Bad credentials.");
                 }
@@ -40,6 +36,8 @@ export class AuthEndpoint {
                         role: user.id_role
                     }, this.config.data.jwt.secret)
                 });
+            }).catch(error => {
+                throw new APIError(500, error.toString());
             });
         });
     }

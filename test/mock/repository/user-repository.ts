@@ -13,6 +13,7 @@ export class MockUserRepository extends UserRepository {
                 lodestoneId: 1,
                 login: "foo",
                 password: "bar",
+                role_id: 1,
                 role: {
                     id: 1,
                     role: "tester"
@@ -28,6 +29,7 @@ export class MockUserRepository extends UserRepository {
                 lodestoneId: id,
                 login: "foo",
                 password: "bar",
+                role_id: 1,
                 role: {
                     id: 1,
                     role: "tester"
@@ -49,7 +51,10 @@ export class MockUserRepository extends UserRepository {
         });
     }
 
-    delete(id: number): void {
+    delete(id: number): Promise<void> {
+        return new Promise<void>((resolve) => {
+            resolve();
+        });
     }
 
 }

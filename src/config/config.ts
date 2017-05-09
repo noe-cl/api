@@ -23,14 +23,15 @@ export class Config {
 }
 
 export interface ConfigModel {
+    testing: boolean;
     db: {
         host: string,
         user: string,
         database: string,
         password: string,
         port: number
-    },
+    };
     jwt: {
         secret: string
-    }
+    };
 }

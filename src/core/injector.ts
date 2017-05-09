@@ -54,7 +54,6 @@ export class Injector {
 
     public static activateTestingMode(): void {
         this.testingMode = true;
-        this.mockRegistry = {};
     }
 }
 
