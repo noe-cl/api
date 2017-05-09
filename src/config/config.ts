@@ -10,10 +10,14 @@ export class Config {
     private _data: ConfigModel;
 
     constructor() {
-        this._data = JSON.parse(fs.readFileSync('./src/config/config.json', 'utf8'));
+        try {
+            this._data = JSON.parse(fs.readFileSync('./src/config/config.json', 'utf8'));
+        } catch (e) {
+            this._data = JSON.parse(fs.readFileSync('./src/config/config-sample.json', 'utf8'));
+        }
     }
 
-    public get data():ConfigModel{
+    public get data(): ConfigModel {
         return this._data;
     }
 }

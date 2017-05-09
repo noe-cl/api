@@ -2,31 +2,15 @@ import { expect } from "chai";
 import { Injector } from "../../src/core/injector";
 import { MysqlDriver } from "../../src/model/config/connection";
 import { IError, IFieldInfo } from "mysql";
-import { Config, ConfigModel } from "../../src/config/config";
+import { Config } from "../../src/config/config";
 import { AuthEndpoint } from "../../src/endpoint/auth/auth-endpoint";
-import * as jwt from 'jsonwebtoken';
+import * as jwt from "jsonwebtoken";
+import { MockConfig } from "../mock/config";
 
 class MockDriver {
 
     public query = (sql: string, values: any[], callback: (err: IError, results?: any, fields?: IFieldInfo[]) => void): any => {
         callback(null, [{lodestoneId: 123456789, login: "FooLogin", id_role: 1}]);
-    }
-}
-
-class MockConfig extends Config {
-    public get data(): ConfigModel {
-        return {
-            db: {
-                host: "localhost",
-                user: "root",
-                database: "noe",
-                password: "lol",
-                port: 3306
-            },
-            jwt: {
-                secret: "OmgI'mSoSecret"
-            }
-        }
     }
 }
 
