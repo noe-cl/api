@@ -2,10 +2,10 @@
  * Created by miu on 09/05/17.
  */
 export function DbRow(rowName?: string): any {
-    return (target: any) => {
+    return (target: any, propertyKey: string) => {
         if (!rowName) {
-            rowName = target.name;
+            rowName = propertyKey;
         }
-        Reflect.defineMetadata("dbRow", rowName, target);
+        Reflect.defineMetadata("dbRow", rowName, target, propertyKey);
     }
 }

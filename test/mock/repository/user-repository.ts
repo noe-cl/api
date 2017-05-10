@@ -45,9 +45,9 @@ export class MockUserRepository extends UserRepository {
         });
     }
 
-    create(user: User): Promise<User> {
-        return new Promise<User>((resolve) => {
-            resolve(user);
+    create(user: User): Promise<number> {
+        return new Promise<number>((resolve) => {
+            resolve(1);
         });
     }
 

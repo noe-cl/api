@@ -24,12 +24,20 @@ export class UsersEndpoint {
 
     @GetOne()
     public getOne(id: number): Promise<User> {
-        return this.repo.get(id);
+        return this.repo.get(id).then(user => {
+            delete user.password;
+            return user;
+        });
     }
 
     @GetAll()
     public getAll(): Promise<User[]> {
-        return this.repo.getAll();
+        return this.repo.getAll().then(users => {
+            users.forEach(user => {
+                delete user.password;
+            });
+            return users;
+        });
     }
 
     @Post()
@@ -37,9 +45,8 @@ export class UsersEndpoint {
         return new Promise<User>((resolve, reject) => {
             if (ModelChecker.hasProperties(body, ['login', 'password', 'lodestoneId'])) {
                 body.password = sha(body.password);
-                this.repo.create(body).then(user => {
-                    delete user.password;
-                    resolve(user);
+                this.repo.create(body).then(() => {
+                    this.getOne(body.lodestoneId).then(resolve).catch(reject);
                 }).catch(reject);
             } else {
                 reject(new APIError(400, "Bad Request"));
