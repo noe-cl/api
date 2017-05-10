@@ -48,8 +48,10 @@ describe('Repository', () => {
     });
 
     it('should be able to create', () => {
-        return repository.create(new User()).then(data => {
-            expect(data.login).to.be.eq("MockedCreation");
+        let user = new User();
+        user.lodestoneId = 1;
+        return repository.create(user).then(data => {
+            expect(data).to.be.greaterThan(0);
         });
     });
 

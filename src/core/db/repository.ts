@@ -2,7 +2,6 @@ import { MysqlDriver } from "./mysql-driver";
 import { Injectable } from "../decorator/injectable";
 import { APIError } from "../api-error";
 import { Promise } from "es6-promise";
-import { User } from "../../model/bean/user";
 /**
  * Created by miu on 09/05/17.
  */
@@ -59,13 +58,11 @@ export abstract class Repository<T> {
      * @param model
      * @returns {Promise<T>|Promise}
      */
-    create(model: T): Promise<T> {
+    create(model: T): Promise<number> {
         let parsed = this.parseModel(model);
-        return new Promise<T>((resolve, reject) => {
+        return new Promise<number>((resolve, reject) => {
             this.db.query("INSERT INTO ?? SET ?", [this.getTable(), parsed])
-                .then(results => this.get(results.insertId)
-                    .then(resolve)
-                    .catch(reject))
+                .then(results => resolve(results.insertId))
                 .catch(reject);
         });
     }
