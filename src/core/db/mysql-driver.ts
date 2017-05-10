@@ -15,7 +15,8 @@ export class MysqlDriver {
 
             this.connection.connect((err) => {
                 if (err) {
-                    throw new APIError(500, "Database Connection error : " + err);
+                    console.error(err);
+                    throw new Error("Database Connection error : " + err);
                 }
             });
         }
