@@ -1,5 +1,8 @@
 FROM node:6.10
 
+RUN apt-get update
+RUN apt-get install -y netcat
+
 RUN mkdir /app
 WORKDIR /app
 ADD package.json package.json
