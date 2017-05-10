@@ -12,4 +12,10 @@ VOLUME /src/config
 
 EXPOSE 80
 
-CMD ["node", "dist/index.js", "80"]
+ADD https://raw.githubusercontent.com/ufoscout/docker-compose-wait/1.0.0/wait.sh /wait.sh
+RUN chmod +x /wait.sh
+
+RUN echo "node dist/index.js 80" > start.sh
+RUN chmod +x start.sh
+
+CMD /wait.sh && ./start.sh
