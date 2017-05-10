@@ -11,7 +11,7 @@ ADD . .
 
 RUN npm run build
 
-VOLUME /src/config
+VOLUME /app/src/config
 
 EXPOSE 80
 
