@@ -1,7 +1,6 @@
 import * as mysql from "mysql";
 import { Injectable } from "../decorator/injectable";
 import { Config } from "../../config/config";
-import { APIError } from "../api-error";
 import { Promise } from "es6-promise";
 
 
@@ -15,7 +14,7 @@ export class MysqlDriver {
 
             this.connection.connect((err) => {
                 if (err) {
-                    console.error(err);
+                    console.log("Config file loaded from : " + config.path);
                     throw new Error("Database Connection error : " + err);
                 }
             });

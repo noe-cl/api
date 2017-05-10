@@ -9,12 +9,23 @@ export class Config {
 
     private _data: ConfigModel;
 
+    private _path: string;
+
     constructor() {
         try {
-            this._data = JSON.parse(fs.readFileSync('./src/config/config.json', 'utf8'));
+            this._data = this.load('./src/config/config.json');
         } catch (e) {
-            this._data = JSON.parse(fs.readFileSync('./src/config/config-sample.json', 'utf8'));
+            this._data = this.load('./src/config/config-sample.json');
         }
+    }
+
+    private load(path: string): ConfigModel {
+        this._path = path;
+        return <ConfigModel>JSON.parse(fs.readFileSync(path, 'utf-8'));
+    }
+
+    public get path(): string {
+        return this._path;
     }
 
     public get data(): ConfigModel {
