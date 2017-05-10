@@ -16,9 +16,18 @@ Injector.registerMock(MysqlDriver, MockMysqlDriver);
 MockMysqlDriver.mockRows.push({table: 'test', data: {id: "1234", login: "Foo"}});
 MockMysqlDriver.mockTables.push({table: 'test', data: [{id: "1234", login: "Foo"}]});
 
-class TestRepository extends Repository<any> {
+class TestRepository extends Repository<User> {
+
+    getModelClass(): new(...args: any[]) => User {
+        return User;
+    }
+
     getTable(): string {
         return "test";
+    }
+
+    public testParseModel(model: any): any {
+        return this.parseModel(model);
     }
 }
 
@@ -54,5 +63,17 @@ describe('Repository', () => {
         return repository.delete(0).then(() => {
             expect(/DELETE/i.test(MockMysqlDriver.requests.pop().sql)).to.be.true;
         });
-    })
+    });
+
+    it('should be able to parse item properly', () => {
+        let user = {
+            login: "Foo",
+            password: "Bar",
+            lodestoneId: 123456789
+        } as User;
+        let parsed = repository.testParseModel(user);
+        expect(parsed.login).to.eql("Foo");
+        expect(parsed.password).to.eql("Bar");
+        expect(parsed.lodestoneId).to.eql(123456789);
+    });
 });

@@ -2,6 +2,7 @@ import { MysqlDriver } from "./mysql-driver";
 import { Injectable } from "../decorator/injectable";
 import { APIError } from "../api-error";
 import { Promise } from "es6-promise";
+import { User } from "../../model/bean/user";
 /**
  * Created by miu on 09/05/17.
  */
@@ -14,6 +15,11 @@ export abstract class Repository<T> {
     }
 
     abstract getTable(): string;
+
+    /**
+     * Used to get an instance of T to be able to parse metadata properly.
+     */
+    abstract getModelClass(): new(...args: any[]) => T;
 
     protected get idFieldName(): string {
         return "id";
@@ -106,10 +112,13 @@ export abstract class Repository<T> {
      * @returns {{}}
      */
     protected parseModel(model: T): any {
+        //First of all we have to copy the object to an instance of T, in order to keep decorators alive.
+        let instance = new (this.getModelClass())();
         let obj = {};
-        for (let field in model) {
+        for(let field in model){
             if (model.hasOwnProperty(field)) {
-                let metadata = Reflect.getMetadata("dbRow", model, field);
+                instance[field] = model[field];
+                let metadata = Reflect.getMetadata("dbRow", instance, field);
                 if (metadata !== undefined) {
                     if (model[field] !== undefined)
                         obj[metadata] = model[field];
