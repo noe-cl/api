@@ -15,6 +15,7 @@ export class MysqlDriver {
             this.connection.connect((err) => {
                 if (err) {
                     console.log("Config file loaded from : " + config.path);
+                    console.log(JSON.stringify(config.data));
                     throw new Error("Database Connection error : " + err);
                 }
             });
