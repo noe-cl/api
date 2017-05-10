@@ -32,22 +32,22 @@ export class ExampleEndpoint {
     }
 
     @Post()
-    public post(body: any): any {
-        return body;
+    public post(body: any): Promise<any> {
+        return Promise.resolve(body);
     }
 
     @Put()
-    put(id: number, body: any): any {
-        return {id: id, data: body};
+    put(id: number, body: any): Promise<any> {
+        return Promise.resolve({id: id, data: body});
     }
 
     @Delete()
-    delete(id: number): any {
-        return {id: id};
+    delete(id: number): Promise<any> {
+        return Promise.resolve({id: id});
     }
 
     @GetAll()
-    getAll(): any[] {
-        return [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    getAll(): Promise<any[]> {
+        return Promise.resolve([1, 2, 3, 4, 5, 6, 7, 8, 9]);
     }
 }

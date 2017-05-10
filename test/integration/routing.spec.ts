@@ -10,6 +10,7 @@ import * as jwt from "jsonwebtoken";
 import { Injector } from "../../src/core/injector";
 import { Config } from "../../src/config/config";
 import { MockConfig } from "../mock/config";
+import { APIError } from "../../src/core/api-error";
 
 /**
  * Basic tests for the example endpoint, to explain how to test endpoints.
@@ -24,8 +25,19 @@ import { MockConfig } from "../mock/config";
 class SecureEndpoint {
 
     @GetOne()
-    getSecure(id: number, token: AuthToken) {
-        return token;
+    getSecure(id: number, token: AuthToken):Promise<AuthToken>{
+        return Promise.resolve(token);
+    }
+}
+
+@Endpoint({
+    route: '/errors'
+})
+class ErrorsEndpoint {
+
+    @GetOne()
+    getError(id: number):Promise<any>{
+        return Promise.reject(new APIError(id, "Testing errors"));
     }
 }
 
@@ -33,6 +45,7 @@ Injector.activateTestingMode();
 Injector.registerMock(Config, MockConfig);
 
 server.router.addEndpoint(SecureEndpoint);
+server.router.addEndpoint(ErrorsEndpoint);
 
 use(require("chai-http"));
 describe('Server', () => {
@@ -72,6 +85,24 @@ describe('Server', () => {
     it('should reject secure requests without auth', () => {
         return request(server.app).get('/secure/1').catch(err => {
             expect(err.status).to.eql(401);
+        });
+    });
+
+    it('should return 400 error properly', () => {
+        return request(server.app).get('/errors/400').catch(err => {
+            expect(err.status).to.eql(400);
+        });
+    });
+
+    it('should return 500 error properly', () => {
+        return request(server.app).get('/errors/500').catch(err => {
+            expect(err.status).to.eql(500);
+        });
+    });
+
+    it('should return invalid error code as 500', () => {
+        return request(server.app).get('/errors/0').catch(err => {
+            expect(err.status).to.eql(500);
         });
     });
 });

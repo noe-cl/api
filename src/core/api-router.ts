@@ -48,20 +48,30 @@ export class APIRouter {
         }
     }
 
+    private rejectionHandler = (error, res) => {
+        res.status(error.code > 0 ? error.code : 500).json({message: error.message});
+    };
+
     private addImplementation(route: string, method: Method, instance: any, impl: string, secure: boolean): void {
         let finalImpl = (req: Request, res: Response) => {
             if ([Method.GET, Method.DELETE].indexOf(method) > -1) {
-                return res.json(instance[impl](req.params.id, (<any>req).user).catch(error => {
-                    res.status(error.code || 500).json({message: error.message});
-                }));
+                return instance[impl](req.params.id, (<any>req).user)
+                    .then(data => res.json(data))
+                    .catch(error => {
+                        this.rejectionHandler(error, res);
+                    });
             } else if (method === Method.POST) {
-                return res.json(instance[impl](req.body, (<any>req).user).catch(error => {
-                    res.status(error.code || 500).json({message: error.message});
-                }));
+                return instance[impl](req.body, (<any>req).user)
+                    .then(data => res.json(data))
+                    .catch(error => {
+                        this.rejectionHandler(error, res);
+                    });
             } else if (method === Method.PUT) {
-                return res.json(instance[impl](req.params.id, req.body, (<any>req).user).catch(error => {
-                    res.status(error.code || 500).json({message: error.message});
-                }));
+                return instance[impl](req.params.id, req.body, (<any>req).user)
+                    .then(data => res.json(data))
+                    .catch(error => {
+                        this.rejectionHandler(error, res);
+                    });
             }
         };
         switch (method) {
