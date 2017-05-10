@@ -20,7 +20,7 @@ export class Config {
     }
 
     private load(path: string): ConfigModel {
-        this._path = path;
+        this._path = require('path').resolve(path);
         return <ConfigModel>JSON.parse(fs.readFileSync(path, 'utf-8'));
     }
 
