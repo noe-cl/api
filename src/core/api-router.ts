@@ -13,7 +13,7 @@ export class APIRouter {
     constructor(private expressRouter: Router) {
     }
 
-    static metadataRefs: { method: Method, key: string }[] = [
+    static metadataRefs: {method: Method, key: string}[] = [
         {method: Method.GET, key: 'getOne'},
         {method: Method.GET, key: 'getAll'},
         {method: Method.POST, key: 'post'},
@@ -51,11 +51,17 @@ export class APIRouter {
     private addImplementation(route: string, method: Method, instance: any, impl: string, secure: boolean): void {
         let finalImpl = (req: Request, res: Response) => {
             if ([Method.GET, Method.DELETE].indexOf(method) > -1) {
-                return res.json(instance[impl](req.params.id, (<any>req).user));
+                return res.json(instance[impl](req.params.id, (<any>req).user).catch(error => {
+                    res.status(error.code || 500).json({message: error.message});
+                }));
             } else if (method === Method.POST) {
-                return res.json(instance[impl](req.body, (<any>req).user));
+                return res.json(instance[impl](req.body, (<any>req).user).catch(error => {
+                    res.status(error.code || 500).json({message: error.message});
+                }));
             } else if (method === Method.PUT) {
-                return res.json(instance[impl](req.params.id, req.body, (<any>req).user));
+                return res.json(instance[impl](req.params.id, req.body, (<any>req).user).catch(error => {
+                    res.status(error.code || 500).json({message: error.message});
+                }));
             }
         };
         switch (method) {
