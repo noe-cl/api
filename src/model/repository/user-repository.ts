@@ -8,4 +8,8 @@ export class UserRepository extends Repository<User> {
     getTable(): string {
         return "users";
     }
+
+    get idFieldName():string{
+        return "lodestoneId";
+    }
 }

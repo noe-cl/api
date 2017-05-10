@@ -15,6 +15,10 @@ export abstract class Repository<T> {
 
     abstract getTable(): string;
 
+    protected get idFieldName(): string {
+        return "id";
+    }
+
     /**
      * Gets all the rows of a given table.
      * @returns {Promise<T[]>|Promise}
@@ -30,12 +34,11 @@ export abstract class Repository<T> {
     /**
      * Gets one row from the database.
      * @param id
-     * @param idFieldName
      * @returns {Promise<T>|Promise}
      */
-    get(id: number, idFieldName: string = "id"): Promise<T> {
+    get(id: number): Promise<T> {
         return new Promise<T>((resolve, reject) => {
-            this.db.query("SELECT * FROM ?? WHERE ?? = ?", [this.getTable(), idFieldName, id]).then(results => {
+            this.db.query("SELECT * FROM ?? WHERE ?? = ?", [this.getTable(), this.idFieldName, id]).then(results => {
                 if (results.length > 0) {
                     resolve(results[0]);
                 } else {
@@ -48,14 +51,13 @@ export abstract class Repository<T> {
     /**
      * Creates a row in the given table, returning the created row.
      * @param model
-     * @param idFieldName
      * @returns {Promise<T>|Promise}
      */
-    create(model: T, idFieldName: string = "id"): Promise<T> {
+    create(model: T): Promise<T> {
         let parsed = this.parseModel(model);
         return new Promise<T>((resolve, reject) => {
             this.db.query("INSERT INTO ?? SET ?", [this.getTable(), parsed])
-                .then(results => this.get(results.insertId, idFieldName)
+                .then(results => this.get(results.insertId)
                     .then(resolve)
                     .catch(reject))
                 .catch(reject);
@@ -66,17 +68,16 @@ export abstract class Repository<T> {
      * updates the given row, returning the updated row.
      * @param id
      * @param model
-     * @param idFieldName
      * @returns {Promise<T>|Promise}
      */
-    update(id: number, model: T, idFieldName: string = "id"): Promise<T> {
+    update(id: number, model: T): Promise<T> {
         let parsed = this.parseModel(model);
         return new Promise<T>((resolve, reject) => {
-            this.db.query("UPDATE ?? SET ? WHERE ?? = ?", [this.getTable(), parsed, idFieldName, id]).then(results => {
+            this.db.query("UPDATE ?? SET ? WHERE ?? = ?", [this.getTable(), parsed, this.idFieldName, id]).then(results => {
                 if (results.changedRows === 0) {
                     reject(new APIError(404, Repository.NOT_FOUND));
                 } else {
-                    this.get(id, idFieldName).then(resolve).catch(reject);
+                    this.get(id).then(resolve).catch(reject);
                 }
             }).catch(reject);
         });
@@ -85,12 +86,11 @@ export abstract class Repository<T> {
     /**
      * Deletes the given row, resolves with no data if everything went fine.
      * @param id
-     * @param idFieldName
      * @returns {Promise<void>|Promise}
      */
-    delete(id: number, idFieldName: string = "id"): Promise<void> {
+    delete(id: number): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            this.db.query("DELETE FROM ?? WHERE ?? = ?", [this.getTable(), idFieldName, id]).then(results => {
+            this.db.query("DELETE FROM ?? WHERE ?? = ?", [this.getTable(), this.idFieldName, id]).then(results => {
                 if (results.changedRows === 0) {
                     reject(new APIError(404, Repository.NOT_FOUND));
                 } else {

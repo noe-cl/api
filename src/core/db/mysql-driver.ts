@@ -24,6 +24,7 @@ export class MysqlDriver {
 
     public query(sql: string, values: any[] = []): Promise<any> {
         return new Promise<any>((resolve, reject) => {
+            console.log("DB QUERY : " + mysql.format(sql, values));
             this.connection.query(sql, values, (err, results) => {
                 if (err) {
                     reject(err);
