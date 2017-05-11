@@ -19,11 +19,12 @@ export class AuthEndpoint {
     }
 
     @Post()
-    post(data: any): Promise<{ token: string }> {
+    post(data: any): Promise<{token: string}> {
         if (data.login === undefined || data.password === undefined) {
-            throw new APIError(400, "Bad Request");
+            console.log("auth 400 : " + JSON.stringify(data));
+            throw new APIError(400, "Bad Request, missing property " + data.login === undefined ? "login" : "password");
         }
-        return new Promise<{ token: string }>((resolve) => {
+        return new Promise<{token: string}>((resolve) => {
             this.db.query("Select * from users WHERE login = ? AND password = ?", [data.login, sha(data.password)]).then(results => {
                 if (results.length === 0) {
                     throw new APIError(400, "Bad credentials.");
