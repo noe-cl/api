@@ -19,11 +19,11 @@ export class AuthEndpoint {
     }
 
     @Post()
-    post(data: any): Promise<{ token: string }> {
-        if (data.login === undefined || data.password === undefined) {
-            throw new APIError(400, "Bad Request");
-        }
-        return new Promise<{ token: string }>((resolve) => {
+    post(data: any): Promise<{token: string}> {
+        return new Promise<{token: string}>((resolve, reject) => {
+            if (data.login === undefined || data.password === undefined) {
+                reject(new APIError(400, "Bad Request"));
+            }
             this.db.query("Select * from users WHERE login = ? AND password = ?", [data.login, sha(data.password)]).then(results => {
                 if (results.length === 0) {
                     throw new APIError(400, "Bad credentials.");

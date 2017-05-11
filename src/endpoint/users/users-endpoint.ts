@@ -71,7 +71,7 @@ export class UsersEndpoint {
     @Delete(true)
     public delete(id: number, token: AuthToken): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            if (token.role <= 2 || parseInt(token.lodestoneId) === id) {
+            if (token.role <= 2 || parseInt(token.lodestoneId) !== id) {
                 this.repo.delete(id).then(resolve).catch(reject);
             } else {
                 reject(new APIError(403, "Forbidden"));
