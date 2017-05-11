@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
+import * as cors from 'cors';
 import { ExampleEndpoint } from "./endpoint/example/example-endpoint";
 import { APIRouter } from "./core/api-router";
 import { UsersEndpoint } from "./endpoint/users/users-endpoint";
@@ -39,6 +40,8 @@ class Server {
         for (let endpoint of endpoints) {
             this.router.addEndpoint(endpoint);
         }
+        this.app.use(cors());
+
         this.app.use(this.router.router);
 
         this.app.use(this.errorHandler);
