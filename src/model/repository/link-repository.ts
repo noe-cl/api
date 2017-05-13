@@ -1,23 +1,16 @@
-import { MysqlDriver } from "../../core/db/mysql-driver";
+import { Injectable } from "../../core/decorator/injectable";
+import { Repository } from "../../core/db/repository";
+import { Link } from "../bean/link";
 
-export class LinkDAO {
+@Injectable
+export class LinkRepository extends Repository<Link>{
 
-    constructor(db: MysqlDriver) {
+    getTable(): string {
+        return "links";
     }
 
-    find() {
-    }
-
-    get(id) {
-    }
-
-    create() {
-    }
-
-    update() {
-    }
-
-    delete(id) {
+    getModelClass(): new (...args: any[]) => Link {
+        return Link;
     }
 
 }
