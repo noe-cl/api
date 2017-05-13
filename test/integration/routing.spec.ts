@@ -1,7 +1,7 @@
 /**
  * Created by Miu on 29/04/2017.
  */
-import { use, request, expect } from "chai";
+import { expect, request, use } from "chai";
 import server from "../../src/index";
 import { Endpoint } from "../../src/core/decorator/endpoint";
 import { AuthToken } from "../../src/core/security/auth-token";
@@ -11,6 +11,7 @@ import { Injector } from "../../src/core/injector";
 import { Config } from "../../src/config/config";
 import { MockConfig } from "../mock/config";
 import { APIError } from "../../src/core/api-error";
+import { Promise } from "es6-promise";
 
 /**
  * Basic tests for the example endpoint, to explain how to test endpoints.
@@ -25,7 +26,7 @@ import { APIError } from "../../src/core/api-error";
 class SecureEndpoint {
 
     @GetOne()
-    getSecure(id: number, token: AuthToken):Promise<AuthToken>{
+    getSecure(id: number, token: AuthToken): Promise<AuthToken> {
         return Promise.resolve(token);
     }
 }
@@ -36,7 +37,7 @@ class SecureEndpoint {
 class ErrorsEndpoint {
 
     @GetOne()
-    getError(id: number):Promise<any>{
+    getError(id: number): Promise<any> {
         return Promise.reject(new APIError(id, "Testing errors"));
     }
 }

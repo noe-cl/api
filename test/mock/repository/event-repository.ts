@@ -1,6 +1,6 @@
 import { EventRepository } from "../../../src/model/repository/event-repository";
 import { Event } from "../../../src/model/bean/event";
-import { Promise } from 'es6-promise';
+import { Promise } from "es6-promise";
 import { APIError } from "../../../src/core/api-error";
 import { Repository } from "../../../src/core/db/repository";
 
