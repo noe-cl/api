@@ -42,11 +42,26 @@ class ErrorsEndpoint {
     }
 }
 
+@Endpoint({
+    route: '/custom'
+})
+class CustomEndpoint {
+
+    @GetOne({
+        specificRoute: "/:id/specific/:test",
+        needsParams: true
+    })
+    customGet(id: number, params: any): Promise<any> {
+        return Promise.resolve(params);
+    }
+}
+
 Injector.activateTestingMode();
 Injector.registerMock(Config, MockConfig);
 
 server.router.addEndpoint(SecureEndpoint);
 server.router.addEndpoint(ErrorsEndpoint);
+server.router.addEndpoint(CustomEndpoint);
 
 use(require("chai-http"));
 describe('Server', () => {
@@ -86,6 +101,12 @@ describe('Server', () => {
     it('should reject secure requests without auth', () => {
         return request(server.app).get('/secure/1').catch(err => {
             expect(err.status).to.eql(401);
+        });
+    });
+
+    it('should handle specific endpoints', () => {
+        return request(server.app).get('/custom/1/specific/123').then(res => {
+            expect(parseInt(res.body.test)).to.eql(123);
         });
     });
 

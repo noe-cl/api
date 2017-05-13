@@ -54,7 +54,7 @@ export class UsersEndpoint {
         });
     }
 
-    @Put(true)
+    @Put({secure: true})
     public put(id: number, body: User, token: AuthToken): Promise<User> {
         return new Promise<User>((resolve, reject) => {
             if (token.role <= 2 || parseInt(token.lodestoneId) === id) {
@@ -68,7 +68,7 @@ export class UsersEndpoint {
         });
     }
 
-    @Delete(true)
+    @Delete({secure: true})
     public delete(id: number, token: AuthToken): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if (token.role <= 2 || parseInt(token.lodestoneId) === id) {

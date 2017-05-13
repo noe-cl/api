@@ -5,6 +5,7 @@ import { Injector } from "./injector";
 import * as jwt from "jsonwebtoken";
 import "reflect-metadata";
 import { Config } from "../config/config";
+import { MethodOptions } from "./method-options";
 /**
  * Created by Miu on 29/04/2017.
  */
@@ -13,7 +14,7 @@ export class APIRouter {
     constructor(private expressRouter: Router) {
     }
 
-    static metadataRefs: {method: Method, key: string}[] = [
+    static metadataRefs: { method: Method, key: string }[] = [
         {method: Method.GET, key: 'getOne'},
         {method: Method.GET, key: 'getAll'},
         {method: Method.POST, key: 'post'},
@@ -27,12 +28,21 @@ export class APIRouter {
         for (let metadataRef of APIRouter.metadataRefs) {
             let metadata = Reflect.getMetadata(metadataRef.key, instance);
             if (metadata !== undefined) {
-                if (metadataRef.key === 'getOne' || metadataRef.key === 'delete' || metadataRef.key === 'put') {
-                    this.addImplementation(options.route + '/:id', metadataRef.method, instance, metadata.method, metadata.secure || options.secure);
-                } else {
-                    this.addImplementation(options.route, metadataRef.method, instance, metadata.method, metadata.secure || options.secure);
-                }
+                let route = APIRouter.getRoute(metadataRef.key, options.route, metadata.options);
+                this.addImplementation(route, metadataRef.method, instance, metadata.method,
+                    metadata.options.secure || options.secure, metadata.options.needsParams);
             }
+        }
+    }
+
+    private static getRoute(key: string, endpointRoute: string, metadataOptions: MethodOptions): string {
+        if (metadataOptions.specificRoute !== undefined) {
+            return endpointRoute + metadataOptions.specificRoute;
+        }
+        if (['getOne', 'delete', 'put'].indexOf(key) > -1) {
+            return endpointRoute + '/:id';
+        } else {
+            return endpointRoute;
         }
     }
 
@@ -52,27 +62,28 @@ export class APIRouter {
         res.status(error.code > 0 ? error.code : 500).json({message: error.message});
     };
 
-    private addImplementation(route: string, method: Method, instance: any, impl: string, secure: boolean): void {
+    private addImplementation(route: string, method: Method, instance: any, impl: string, secure: boolean,
+                              needsParams: boolean): void {
         let finalImpl = (req: Request, res: Response) => {
+            let params = [];
             if ([Method.GET, Method.DELETE].indexOf(method) > -1) {
-                return instance[impl](req.params.id, (<any>req).user)
-                    .then(data => res.json(data))
-                    .catch(error => {
-                        this.rejectionHandler(error, res);
-                    });
+                params = [req.params.id];
             } else if (method === Method.POST) {
-                return instance[impl](req.body, (<any>req).user)
-                    .then(data => res.json(data))
-                    .catch(error => {
-                        this.rejectionHandler(error, res);
-                    });
+                params = [req.body];
             } else if (method === Method.PUT) {
-                return instance[impl](req.params.id, req.body, (<any>req).user)
-                    .then(data => res.json(data))
-                    .catch(error => {
-                        this.rejectionHandler(error, res);
-                    });
+                params = [req.params.id, req.body];
             }
+            if (needsParams) {
+                params.push(req.params);
+            }
+            if (secure) {
+                params.push((<any>req).user);
+            }
+            return instance[impl](...params)
+                .then(data => res.json(data))
+                .catch(error => {
+                    this.rejectionHandler(error, res);
+                });
         };
         switch (method) {
             case Method.GET:
