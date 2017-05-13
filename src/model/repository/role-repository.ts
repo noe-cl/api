@@ -1,24 +1,16 @@
-const Role = require("../DTO/Role");
+import { Injectable } from "../../core/decorator/injectable";
+import { Repository } from "../../core/db/repository";
+import { Role } from "../bean/role";
 
-export class RoleRepository {
-    constructor({db}) {
+@Injectable
+export class RoleRepository extends Repository<Role>{
 
+    getTable(): string {
+        return "roles";
     }
 
-    find() {
-    }
-
-    get(id) {
-    }
-
-
-    create() {
-    }
-
-    update() {
-    }
-
-    delete(id) {
+    getModelClass(): new (...args: any[]) => Role {
+        return Role;
     }
 
 }
