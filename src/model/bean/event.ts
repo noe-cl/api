@@ -12,4 +12,6 @@ export class Event {
 
     @DbRow()
     date: string;
+
+    subscribers: number[];
 } 
