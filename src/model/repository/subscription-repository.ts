@@ -20,6 +20,14 @@ export class SubscriptionRepository extends Repository<Subscription>{
     }
 
 
+    createSubscription(idEvent: number, idUser: number): Promise<number> {
+        return new Promise<number>((resolve, reject) => {
+            this.connection.query("INSERT INTO ? (id_event,id_user) VALUES (?,?)", [this.getTable(), idEvent, idUser]).then((result) => {
+                resolve(result.insertId);
+            }).catch(reject);
+        });
+    }
+
     getSubscribersIdByEventId(eventId: number): Promise<number[]> {
         return new Promise<number[]>((resolve, reject) => {
             this.connection.query("SELECT id_user FROM ? WHERE id_event = ?", [this.getTable(), eventId]).then((results) => {

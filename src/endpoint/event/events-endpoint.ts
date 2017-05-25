@@ -29,15 +29,12 @@ export class EventsEndpoint {
         return new Promise<Event[]>((resolve, reject) => {
             this.eventRepo.getAll().then((events) => {
 
-                let fullEvent = events.map<Event>((event) => {
-                    let newEvent = new Event();
-                    newEvent = event;
-                    this.subRepo.getSubscribersIdByEventId(newEvent.id).then((subscribersId) => {
-                        newEvent.subscribers = subscribersId;
-                        return newEvent;
+                events.forEach((event) => {
+                    this.subRepo.getSubscribersIdByEventId(event.id).then((subscribersId) => {
+                        event.subscribers = subscribersId;
                     });
                 });
-                resolve(fullEvent);
+                resolve(events);
             });
         });
     }
@@ -57,9 +54,9 @@ export class EventsEndpoint {
         return this.eventRepo.delete(id);
     }
 
-    @Post({ specificRoute: "/:id/subscriptions" })
-    public postMessage(body: any): Promise<number> {
-        //return this.repo
+    @Post({ specificRoute: "/:id/subscriptions", needsParams: true })
+    public postMessage(body: number, id: number): Promise<number> {
+        return this.subRepo.createSubscription(id, body);
     }
 
 
