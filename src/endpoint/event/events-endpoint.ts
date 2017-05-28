@@ -36,8 +36,8 @@ export class EventsEndpoint {
                     this.subRepo.getSubscribersIdByEventId(event.id).then((subscribersId) => {
                         event.subscribers = subscribersId;
                     });
-                    if (index == events.length) {
-                        resolve(events);
+                    if (index == array.length) {
+                        resolve(array);
                     }
                 });
             }).catch(reject);
