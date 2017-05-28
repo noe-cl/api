@@ -12,7 +12,8 @@ export class MockEventRepository extends EventRepository {
                 id: 1,
                 name: "foo",
                 user_id: 546879,
-                date: ""
+                date: "",
+                subscribers: []
             };
             resolve([event]);
         });
@@ -27,7 +28,8 @@ export class MockEventRepository extends EventRepository {
                     id: 1,
                     name: "foo",
                     user_id: 546879,
-                    date: ""
+                    date: "",
+                    subscribers: []
                 };
                 resolve(event);
             }

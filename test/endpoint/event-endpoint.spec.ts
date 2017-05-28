@@ -45,7 +45,8 @@ describe('EventsEndpoint', () => {
             id: 1,
             name: "foo",
             user_id: 546879,
-            date: ""
+            date: "",
+            subscribers: []
         };
         return endpoint.post(event).then(one => {
             expect(one).to.eq(1);
@@ -57,7 +58,8 @@ describe('EventsEndpoint', () => {
             id: 1,
             name: "foo",
             user_id: 546879,
-            date: ""
+            date: "",
+            subscribers: []
         };
         return endpoint.put(1, event).then(one => {
             expect(one.name).to.eq("foo");
