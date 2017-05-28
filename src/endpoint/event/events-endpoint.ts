@@ -23,8 +23,8 @@ export class EventsEndpoint {
                     event.subscribers = subscribersId;
                     resolve(event);
                 });
-            });
-        })
+            }).catch(reject);
+        });
     }
 
     @GetAll()
@@ -38,7 +38,7 @@ export class EventsEndpoint {
                     });
                 });
                 resolve(events);
-            });
+            }).catch(reject);
         });
     }
 
