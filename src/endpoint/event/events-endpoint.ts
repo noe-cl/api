@@ -22,7 +22,7 @@ export class EventsEndpoint {
                 this.subRepo.getSubscribersIdByEventId(event.id).then((subscribersId) => {
                     event.subscribers = subscribersId;
                     resolve(event);
-                });
+                }).catch(() => { resolve(event); });
             }).catch(reject);
         });
     }
@@ -32,12 +32,14 @@ export class EventsEndpoint {
         return new Promise<Event[]>((resolve, reject) => {
             this.eventRepo.getAll().then((events) => {
 
-                events.forEach((event) => {
+                events.forEach((event, index, array) => {
                     this.subRepo.getSubscribersIdByEventId(event.id).then((subscribersId) => {
                         event.subscribers = subscribersId;
                     });
+                    if (index == events.length) {
+                        resolve(events);
+                    }
                 });
-                resolve(events);
             }).catch(reject);
         });
     }
