@@ -19,7 +19,10 @@ export class EventsEndpoint {
     public getOne(id: number): Promise<Event> {
         return new Promise<Event>((resolve, reject) => {
             this.eventRepo.get(id).then((event) => {
-
+                this.subRepo.getSubscribersIdByEventId(event.id).then((subscribersId) => {
+                    event.subscribers = subscribersId;
+                    resolve(event);
+                });
             });
         })
     }
